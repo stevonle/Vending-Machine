@@ -10,9 +10,9 @@ import java.util.Scanner;
  */
 public class UserInput
 {
-    private static Scanner scanner = new Scanner(System.in);
+    private Scanner scanner = new Scanner(System.in);
 
-    public static String getHomeScreenOption()
+    public String getHomeScreenOption()
     {
         System.out.println("What would you like to do?");
         System.out.println();

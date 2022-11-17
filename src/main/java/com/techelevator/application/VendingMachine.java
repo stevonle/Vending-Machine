@@ -7,10 +7,13 @@ public class VendingMachine
 {
     public void run()
     {
+        UserOutput userOutput = new UserOutput();
+        UserInput userInput = new UserInput();
+
         while(true)
         {
-            UserOutput.displayHomeScreen();
-            String choice = UserInput.getHomeScreenOption();
+            userOutput.displayHomeScreen();
+            String choice = userInput.getHomeScreenOption();
 
             if(choice.equals("display"))
             {
