@@ -34,25 +34,24 @@ public class UserInput {
         } else {
             return "";
         }
-
     }
 
     public String purchaseMenuOptions() {
         System.out.println("What would you like to do?");
         System.out.println();
 
-        System.out.println("F) Feed Money");
-        System.out.println("I) Dispense Item");
-        System.out.println("T) End Transaction");
+        System.out.println("M) Feed Money");
+        System.out.println("S) Select Item");
+        System.out.println("F) Finish Transaction");
 
         String selectedOption = scanner.nextLine();
         String option = selectedOption.trim().toUpperCase();
 
-        if (option.equals("F")) {
+        if (option.equals("M")) {
             return "feed";
-        } else if (option.equals("I")) {
+        } else if (option.equals("S")) {
             return "dispense";
-        } else if (option.equals("T")) {
+        } else if (option.equals("F")) {
             return "end";
         } else return "";
     }
@@ -71,6 +70,14 @@ public class UserInput {
         } else if (selectedOption.equals("20")){
             return "20";
         } else return "";
+    }
+
+    public String gimmeYoSnacks() {
+        System.out.println();
+        System.out.print("Please select your snack by inputting the slot identifier: ");
+        String selectedSnack = scanner.nextLine();
+
+        return selectedSnack;
     }
 }
 

@@ -19,11 +19,6 @@ public class FileReading {
                 String[] snackInfo = eachLine.split(",");
                 snackList.add(snackInfo);
             }
-//            for (String[] eachSnack : snackList) {
-//                for (String eachSnackInfo : eachSnack) {
-//                    System.out.println(eachSnackInfo);
-//                }
-//            }
 
             input.close();
 

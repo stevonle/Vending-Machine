@@ -15,10 +15,15 @@ public class MoneyBalance {
         //BigDecimal moneyFedDecimal = new BigDecimal(moneyFed);
     }
 
-//    public BigDecimal subtractFromCurrentBalance(){
-//        currentBalance=(currentBalance.subtract(snackCost));
-//        return currentBalance;
-//    }
+    public BigDecimal subtractFromCurrentBalance(BigDecimal cost){
+//        if (currentBalance.subtract(cost).compareTo(BigDecimal.ZERO) >= 0) {
+            currentBalance = (currentBalance.subtract(cost));
+//        } else {
+//            System.out.println("You don't have enough money to purchase this snack");
+//        }
+        return currentBalance;
+    }
+
     public BigDecimal giveChange(){
         //return in .05, .1, .25, 1.0 (single dollars) (using the smallest amount of coins possible).
         return currentBalance;

@@ -24,6 +24,22 @@ public class Snacks {
         this.snackType = snackType;
     }
 
+    public void stockUpdate() {
+        this.snackStock -= 1;
+    }
+
+    public String snackTypeMessage(String snackType) {
+        if (snackType.equals("Munchy")) {
+            return "Munchy, Munchy, so Good!";
+        } else if (snackType.equals("Candy")) {
+            return "Sugar, Sugar, so Sweet!";
+        } else if (snackType.equals("Drink")) {
+            return "Drinky, Drinky, Slurp Slurp!";
+        } else if (snackType.equals("Gum")) {
+            return "Chewy, Chewy, Lots O Bubbles!";
+        } else return "";
+    }
+
     public String getSnackSlot() {
         return snackSlot;
     }
