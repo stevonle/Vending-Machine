@@ -16,22 +16,44 @@ public class MoneyBalance {
     }
 
     public BigDecimal subtractFromCurrentBalance(BigDecimal cost){
-//        if (currentBalance.subtract(cost).compareTo(BigDecimal.ZERO) >= 0) {
             currentBalance = (currentBalance.subtract(cost));
-//        } else {
-//            System.out.println("You don't have enough money to purchase this snack");
-//        }
         return currentBalance;
     }
+//BigDecimal snackCostBD = new BigDecimal(String.valueOf(snackCost));
+//        double moneyMinusSnackCost = inputMoney.getCurrentBalance().subtract(snackCostBD).doubleValue();
+//       boolean enoughMoney = moneyMinusSnackCost >= 0;
+//       return enoughMoney;
 
-    public BigDecimal giveChange(){
-        //return in .05, .1, .25, 1.0 (single dollars) (using the smallest amount of coins possible).
-        return currentBalance;
+    public String giveChange(){
+        int nickels = 0;
+        int quarters = 0;
+        int dimes = 0;
+        int dollars = 0;
+
+        while(this.currentBalance.doubleValue() >= 1.0){
+            currentBalance.subtract(BigDecimal.ONE);
+            dollars += 1;
+        }
+        while(this.currentBalance.doubleValue() >= 0.25){
+            currentBalance.subtract(new BigDecimal(".25"));
+            quarters += 1;
+        }
+        while(this.currentBalance.doubleValue() >= 0.1){
+            currentBalance.subtract(new BigDecimal(".1"));
+            dimes += 1;
+        }
+        while(this.currentBalance.doubleValue() >= 0.05){
+            currentBalance.subtract(new BigDecimal(".05"));
+            nickels += 1;
+        }
+        currentBalance = BigDecimal.ZERO;
+        System.out.println("Here's your change! Dollars: " + dollars + " Quarters: " + quarters + " Dimes: " + dimes + " Nickels: " + nickels);
+        return "";
     }
 
-
-
-
+    public BigDecimal bogodoSale(){
+        return currentBalance = currentBalance.add(BigDecimal.ONE);
+    }
 
 
 
