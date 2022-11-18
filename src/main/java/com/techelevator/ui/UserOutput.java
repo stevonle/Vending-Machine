@@ -1,5 +1,7 @@
 package com.techelevator.ui;
 
+import com.techelevator.models.Snacks;
+
 import java.math.BigDecimal;
 import java.util.Map;
 
@@ -27,6 +29,15 @@ public class UserOutput
         System.out.println("                      Home");
         System.out.println("***************************************************");
         System.out.println();
+    }
+
+    public void displaySnackList(Snacks eachItem)
+    {
+        System.out.print(eachItem.getSnackSlot() + " | ");
+        System.out.print(eachItem.getSnackName() + " | ");
+        System.out.print("$" + eachItem.getSnackCost() + " | ");
+        System.out.print(eachItem.getSnackType() + " | ");
+        System.out.println(eachItem.getSnackStock());
     }
 
 }

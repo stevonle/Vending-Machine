@@ -12,8 +12,13 @@ public class VendingMachine
 {
     private List<Snacks> vendorSnackList = new ArrayList<>();
     private final BigDecimal BOGODO_DISCOUNT = BigDecimal.ONE;
+//TODO MOVE ALL SOUT INTO TO USEROUTPUT CLASS
+    //TODO MAKE SNACK SLOT INPUT CASE INSENSITIVE
+    //TODO MAKE MONEY GIVE 2 DECIMAL POINTS FOR .00
+    //TODO FIGURE OUT HOW TO MAKE FEED BLOCK SMALLER
+    //TODO need a printout message for if nonexistant slot called. WITHOUT printing each time it finds a not matching slot
 
-    public void run()                     //MOVE ALL SOUT INTO USEROUTPUT CLASS
+    public void run()
     {
         UserOutput userOutput = new UserOutput();
         UserInput userInput = new UserInput();
@@ -22,7 +27,9 @@ public class VendingMachine
         initializeVendingMachine();
         //initialize balance
         MoneyBalance inputMoney = new MoneyBalance();
-        int bogodoCounter = 0;
+        //initialize purchasingSnacks
+        PurchasingSnacks canYouBuySnacks = new PurchasingSnacks();
+        int bogodoCounter = 1;
 
         while (true)
         {
@@ -34,11 +41,7 @@ public class VendingMachine
                 // display the vending machine slots
                 System.out.println("Slot | Name | Cost | Type | Stock Left");
                 for (Snacks eachItem : vendorSnackList){
-                    System.out.print(eachItem.getSnackSlot() + " | ");
-                    System.out.print(eachItem.getSnackName() + " | ");
-                    System.out.print("$" + eachItem.getSnackCost() + " | ");
-                    System.out.print(eachItem.getSnackType() + " | ");
-                    System.out.println(eachItem.getSnackStock());
+                    userOutput.displaySnackList(eachItem);
                 }
             }
 
@@ -63,24 +66,19 @@ public class VendingMachine
                      while (true) {
                          System.out.println("Slot | Name | Cost | Type | Stock Left");
                          for (Snacks eachItem : vendorSnackList){
-                             System.out.print(eachItem.getSnackSlot() + " | ");
-                             System.out.print(eachItem.getSnackName() + " | ");
-                             System.out.print("$" + eachItem.getSnackCost() + " | ");
-                             System.out.print(eachItem.getSnackType() + " | ");
-                             System.out.println(eachItem.getSnackStock());
+                             userOutput.displaySnackList(eachItem);
                          }
                          System.out.println();
                          System.out.println("Please choose the item you would like:");
-                         //fix so shows 2 decimal points
-                         System.out.println("Your current money provided: $" + inputMoney.getCurrentBalance() + "0.");
+                         System.out.println("Current balance: $" + inputMoney.getCurrentBalance());
 
                          String choiceFour = userInput.gimmeYoSnacks();
                          //List<Snacks> chosenSnack = new ArrayList<>();
                          for (Snacks eachItem : vendorSnackList) {
                              if (choiceFour.equals(eachItem.getSnackSlot())) {
-                                 if (eachItem.getSnackStock() > 0 /*&& inputMoney.getCurrentBalance().subtract(eachItem.getSnackCost()).compareTo(BigDecimal.ZERO) >= 0*/) {
+                                 if (canYouBuySnacks.enoughStockForPurchase(eachItem.getSnackStock()) && canYouBuySnacks.enoughMoneyForSnacks(eachItem.getSnackCost(), inputMoney)) {
                                      if (bogodoCounter % 2 == 0) {
-                                         inputMoney.addToCurrentBalance(BOGODO_DISCOUNT);
+                                         inputMoney.bogodoSale();
                                      }
                                      BigDecimal choiceFourBD = BigDecimal.valueOf(eachItem.getSnackCost());
                                      inputMoney.subtractFromCurrentBalance(choiceFourBD);
@@ -88,19 +86,22 @@ public class VendingMachine
                                      bogodoCounter += 1;
                                      System.out.println("Dispensing " + eachItem.getSnackName() + " $" + eachItem.getSnackCost());
                                      System.out.println(eachItem.snackTypeMessage(eachItem.getSnackType()));
-                                 } else if (eachItem.getSnackStock() == 0){
+                                 } else if (!canYouBuySnacks.enoughStockForPurchase(eachItem.getSnackStock())){
                                      System.out.println("Product No Longer Available");
-                                 }
-                             } else {
-                                 System.out.println("Invalid slot");
+                                 } //else previusly 1 {} down
+                                 else {
+                                     System.out.println("You either didn't input a valid slot or you don't have enough money. Do it right next time.");
+                             }
                              }
                          }
+                         userInput.purchaseMenuOptions();
+                         System.out.println("Current balance: $" + inputMoney.getCurrentBalance());
                      }
 
                  } else if (choiceTwo.equals("end")) {
+
                      System.out.println("Here is your change. Thank you for your business.");
                  }
-                 //fix so shows 2 decimal points
                  //System.out.println("Your current money provided: $" + inputMoney.getCurrentBalance() + "0.");
              }
 

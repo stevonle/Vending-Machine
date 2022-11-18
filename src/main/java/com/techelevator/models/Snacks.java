@@ -24,6 +24,7 @@ public class Snacks {
         this.snackType = snackType;
     }
 
+    //could move to snackPurchasing, but wont have access to snackStock so leaving here for now :p
     public void stockUpdate() {
         this.snackStock -= 1;
     }
