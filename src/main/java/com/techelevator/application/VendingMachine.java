@@ -41,6 +41,7 @@ public class VendingMachine
                     System.out.println(eachItem.getSnackStock());
                 }
             }
+
             else if (choice.equals("purchase"))
             {
                 // make a purchase
@@ -57,7 +58,6 @@ public class VendingMachine
                      } else {
                          System.out.println("Not a valid bill.");
                      }
-
 
                  } else if (choiceTwo.equals("dispense")) {
                      while (true) {
