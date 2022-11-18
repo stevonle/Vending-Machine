@@ -8,12 +8,10 @@ import java.util.Scanner;
  * 
  * Dependencies: None
  */
-public class UserInput
-{
+public class UserInput {
     private Scanner scanner = new Scanner(System.in);
 
-    public String getHomeScreenOption()
-    {
+    public String getHomeScreenOption() {
         System.out.println("What would you like to do?");
         System.out.println();
 
@@ -27,24 +25,52 @@ public class UserInput
         String selectedOption = scanner.nextLine();
         String option = selectedOption.trim().toUpperCase();
 
-        if (option.equals("D"))
-        {
+        if (option.equals("D")) {
             return "display";
-        }
-        else if (option.equals("P"))
-        {
+        } else if (option.equals("P")) {
             return "purchase";
-        }
-        else if (option.equals("E"))
-        {
+        } else if (option.equals("E")) {
             return "exit";
-        }
-        else
-        {
+        } else {
             return "";
         }
 
     }
 
-    
+    public String purchaseMenuOptions() {
+        System.out.println("What would you like to do?");
+        System.out.println();
+
+        System.out.println("F) Feed Money");
+        System.out.println("I) Dispense Item");
+        System.out.println("T) End Transaction");
+
+        String selectedOption = scanner.nextLine();
+        String option = selectedOption.trim().toUpperCase();
+
+        if (option.equals("F")) {
+            return "feed";
+        } else if (option.equals("I")) {
+            return "dispense";
+        } else if (option.equals("T")) {
+            return "end";
+        } else return "";
+    }
+
+    public String gimmeYoDollars(){
+        System.out.println();
+        System.out.print("Please select an option: ");
+        String selectedOption = scanner.nextLine();
+
+        if(selectedOption.equals("1")){
+            return "1";
+        } else if(selectedOption.equals("5")){
+            return "5";
+        } else if(selectedOption.equals("10")){
+            return "10";
+        } else if (selectedOption.equals("20")){
+            return "20";
+        } else return "";
+    }
 }
+

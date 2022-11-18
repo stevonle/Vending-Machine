@@ -11,6 +11,7 @@ public class FileReading {
 
     public List<String[]> readsFileAndGetsSnackInfo() {
         try {
+            //fix so can input either file
             Scanner input = new Scanner(new File("catering.csv"));
 
             while (input.hasNextLine()) {
