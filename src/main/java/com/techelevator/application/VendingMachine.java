@@ -27,8 +27,7 @@ public class VendingMachine
         PurchasingSnacks buyable = new PurchasingSnacks();
         int bogodoCounter = 1;
 
-        while (true)
-        {
+        while (true) {
             userOutput.displayHomeScreen();
             String choice = userInput.getHomeScreenOption();
 
