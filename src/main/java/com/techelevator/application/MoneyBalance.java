@@ -19,10 +19,6 @@ public class MoneyBalance {
             currentBalance = (currentBalance.subtract(cost));
         return currentBalance;
     }
-//BigDecimal snackCostBD = new BigDecimal(String.valueOf(snackCost));
-//        double moneyMinusSnackCost = inputMoney.getCurrentBalance().subtract(snackCostBD).doubleValue();
-//       boolean enoughMoney = moneyMinusSnackCost >= 0;
-//       return enoughMoney;
 
     public void giveChange(){
         BigDecimal balance = this.currentBalance;

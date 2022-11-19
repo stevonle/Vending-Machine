@@ -1,4 +1,4 @@
-package com.techelevator.application;
+package com.techelevator.models;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -11,7 +11,7 @@ public class FileReading {
 
     public List<String[]> readsFileAndGetsSnackInfo() {
         try {
-            //fix so can input either file
+            //TODO fix so can input either file
             Scanner input = new Scanner(new File("catering.csv"));
 
             while (input.hasNextLine()) {
