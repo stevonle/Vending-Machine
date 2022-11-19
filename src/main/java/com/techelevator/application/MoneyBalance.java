@@ -44,13 +44,14 @@ public class MoneyBalance {
             nickels += 1;
         }
         System.out.println("Here's your change! Dollars: " + dollars + " Quarters: " + quarters + " Dimes: " + dimes + " Nickels: " + nickels);
-        balance = BigDecimal.ZERO;
     }
 
-    public BigDecimal bogodoSale(){
-        return currentBalance = currentBalance.add(BigDecimal.ONE);
+    public BigDecimal bogodoSale(int bogodoCounter, MoneyBalance inputMoney){
+        if (bogodoCounter % 2 == 0) {
+            currentBalance = currentBalance.add(BigDecimal.ONE);
+        }
+        return currentBalance;
     }
-
 
     public BigDecimal getCurrentBalance() {
         this.currentBalance = this.currentBalance.setScale(2);

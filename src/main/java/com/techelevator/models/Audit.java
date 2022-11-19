@@ -1,6 +1,7 @@
 package com.techelevator.models;
 
 import java.io.*;
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
@@ -22,39 +23,33 @@ public class Audit {
         return auditFile;
     }
 
-    public void auditingFeed() {
-
+    public void auditingFeed(BigDecimal moneyFed, BigDecimal present) {
         try {
             PrintWriter auditWriter = new PrintWriter(new FileOutputStream(createAuditFile(), true));
-            auditWriter.println(getDateTime() + "MONEY FED: " );
+            auditWriter.println(getDateTime() + " MONEY FED: $" + moneyFed + " $" + present);
             auditWriter.flush();
             auditWriter.close();
         } catch (FileNotFoundException e) {
-            e.printStackTrace();
         }
     }
 
-
-    public void auditingPurchase(String auditName, String auditSlot) { //add int prevBal, int curBal
+    public void auditingPurchase(String name, String slot, BigDecimal previous, BigDecimal present) {
         try {
             PrintWriter auditWriter = new PrintWriter(new FileOutputStream(createAuditFile(), true));
-            auditWriter.println(getDateTime() + " " + auditName + " " + auditSlot );
+            auditWriter.println(getDateTime() + " " + name + " " + slot + " $" + previous + " $" + present);
             auditWriter.flush();
             auditWriter.close();
         } catch (FileNotFoundException e) {
-            e.printStackTrace();
         }
     }
 
-
-        public void auditingChange() {
+        public void auditingChange(BigDecimal previous, BigDecimal present) {
             try {
                 PrintWriter auditWriter = new PrintWriter(new FileOutputStream(createAuditFile(), true));
-                auditWriter.println(getDateTime() + " CHANGE GIVEN: ");
+                auditWriter.println(getDateTime() + " CHANGE GIVEN: $" + previous + " $" + present);
                 auditWriter.flush();
                 auditWriter.close();
             } catch (FileNotFoundException e) {
-                e.printStackTrace();
             }
         }
 

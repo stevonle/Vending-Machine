@@ -26,7 +26,6 @@ public class UserOutput
 
     public void displayHomeScreen()
     {
-        System.out.println();
         System.out.println("***************************************************");
         System.out.println("                      Home");
         System.out.println("***************************************************");
@@ -43,6 +42,7 @@ public class UserOutput
             System.out.print(eachItem.getSnackType() + " | ");
             System.out.println(eachItem.getSnackStock());
         }
+        System.out.println();
     }
 
     public void invalidSlotOrMoney() {
@@ -50,13 +50,12 @@ public class UserOutput
     }
 
     public void outOfStock() {
-        System.out.println("NO LONGER AVAILABLE");
+        System.out.println("ITEM NO LONGER AVAILABLE");
+
     }
 
     public void chooseItem() {
-        System.out.println();
-        System.out.println("Please choose the item you would like:");
-        System.out.println();
+        System.out.println("Please choose the item you would like");
     }
 
     public void dispensingMessage(Snacks eachItem) {
@@ -65,11 +64,13 @@ public class UserOutput
     }
 
     public void feedMessage() {
-        System.out.println("Please feed me money. Only $1, $5, $10, $20 bills are accepted.");
+        System.out.println("Please feed me money. Only $1, $5, $10, $20 bills are accepted");
+
     }
 
     public void invalidBillMessage() {
-        System.out.println("Not a valid bill.");
+        System.out.println("Not a valid bill");
+
     }
 
     public void displayBalance(MoneyBalance inputMoney) {

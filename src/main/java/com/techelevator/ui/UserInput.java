@@ -75,7 +75,6 @@ public class UserInput {
     }
 
     public String gimmeYoSnacks() {
-        System.out.println();
         System.out.print("Please select your snack by inputting the slot identifier: ");
         String selectedSnack = scanner.nextLine();
 

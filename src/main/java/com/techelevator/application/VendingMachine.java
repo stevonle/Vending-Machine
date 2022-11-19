@@ -10,111 +10,94 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
-public class VendingMachine 
-{
+public class VendingMachine {
     private List<Snacks> vendorSnackList = new ArrayList<>();
-    private final BigDecimal BOGODO_DISCOUNT = BigDecimal.ONE;
-    //TODO need a printout message for if nonexistant slot called. WITHOUT printing each time it finds a not matching slot
+    private int bogodoCounter = 1;
+    private BigDecimal previousBal = new BigDecimal("0.00");
+    private BigDecimal presentBal = new BigDecimal("0.00");
 
-    public void run()
-    {
+    //TODO need a printout message for if nonexistant slot called. WITHOUT
+    // printing each time it finds a not matching slot
+
+    public void run() {
         UserOutput userOutput = new UserOutput();
         UserInput userInput = new UserInput();
-
-        // initialize vending machine
-        initializeVendingMachine();
-        //initialize balance
         MoneyBalance inputMoney = new MoneyBalance();
-        //initialize purchasingSnacks
-        PurchasingSnacks buyable = new PurchasingSnacks();
-        //initialize Audit
+        PurchasingSnacks canBuy = new PurchasingSnacks();
         Audit addToAudit = new Audit();
-        Audit auditPrevBal = new Audit();
-        Audit auditCurBal = new Audit();
 
+        initializeVendingMachine();
 
-        int bogodoCounter = 1;
-
-<<<<<<< HEAD
         while (true) {
-=======
-
-        while (true)
-        {
->>>>>>> 65aac07ea0258e1f653cbeef4472f28d49e19b03
             userOutput.displayHomeScreen();
             String choice = userInput.getHomeScreenOption();
 
-            if (choice.equals("display"))
-            {
-                // display the vending machine slots
+            if (choice.equals("display")) {             // USER SELECTS DISPLAY VENDING MACHINE ITEMS
                 userOutput.displaySnackList(vendorSnackList);
-            }
 
-            else if (choice.equals("purchase")) {
-             while (true) {
-                 String choiceTwo = userInput.purchaseMenuOptions();
+            } else if (choice.equals("purchase")) {     // USER SELECTS PURCHASE
+                while (true) {
+                    String choiceTwo = userInput.purchaseMenuOptions();
 
-                 if (choiceTwo.equals("feed")) {
-                     userOutput.feedMessage();
-                     String choiceThree = userInput.gimmeYoDollars();
+                    if (choiceTwo.equals("feed")) {                 // USER SELECTS FEED MONEY
+                        userOutput.feedMessage();
+                        String choiceThree = userInput.gimmeYoDollars();
 
-                     if (choiceThree.equals("1") || choiceThree.equals("5") || choiceThree.equals("10") || choiceThree.equals("20")) {
-                         BigDecimal choiceThreeBD = BigDecimal.valueOf(Double.parseDouble(choiceThree));
-                         //auditPrevBal =
-                         inputMoney.addToCurrentBalance(choiceThreeBD);
-                         userOutput.displayBalance(inputMoney);
-//                         auditCurBal += choiceThreeBD;
-                         //save to auditFeed
-                     } else {
-                         userOutput.invalidBillMessage();
-                     }
+                        if (choiceThree.equals("1") || choiceThree.equals("5") ||
+                                choiceThree.equals("10") || choiceThree.equals("20")) {
 
-                 } else if (choiceTwo.equals("dispense")) {
+                            BigDecimal choiceThreeBD = new BigDecimal(choiceThree).setScale(2);
+                            inputMoney.addToCurrentBalance(choiceThreeBD);
+                            userOutput.displayBalance(inputMoney);
 
-                     userOutput.displaySnackList(vendorSnackList);
+                            presentBal = inputMoney.getCurrentBalance();
+                            addToAudit.auditingFeed(choiceThreeBD, presentBal);
 
-                         userOutput.chooseItem();
-                         userOutput.displayBalance(inputMoney);
+                        } else {
+                            userOutput.invalidBillMessage();
+                        }
 
-                         String choiceFour = userInput.gimmeYoSnacks();
+                    } else if (choiceTwo.equals("dispense")) {      // USER SELECTS SELECT ITEM
+                        userOutput.displaySnackList(vendorSnackList);
+                        userOutput.chooseItem();
+                        userOutput.displayBalance(inputMoney);
+                        String choiceFour = userInput.gimmeYoSnacks();
 
-                         for (Snacks eachItem : vendorSnackList) {
-                             if (choiceFour.equals(eachItem.getSnackSlot())) {
-                                 if (buyable.enoughStock(eachItem.getSnackStock()) && buyable.enoughMoney(eachItem.getSnackCost(), inputMoney)) {
+                        for (Snacks eachItem : vendorSnackList) {
+                            String slot = eachItem.getSnackSlot();
+                            String name = eachItem.getSnackName();
+                            double cost = eachItem.getSnackCost();
+                            int stock = eachItem.getSnackStock();
 
-                                     applyBOGODOSale(bogodoCounter, inputMoney);
-                                     bogodoCounter += 1;
+                            if (choiceFour.equalsIgnoreCase(slot) && canBuy.enoughStock(stock)
+                                    && canBuy.enoughMoney(cost, inputMoney)) {
 
-                                     BigDecimal choiceFourBD = BigDecimal.valueOf(eachItem.getSnackCost());
-                                     inputMoney.subtractFromCurrentBalance(choiceFourBD);
-                                     addToAudit.auditingPurchase(eachItem.getSnackName(), eachItem.getSnackSlot());
+                                inputMoney.bogodoSale(bogodoCounter, inputMoney);
+                                bogodoCounter += 1;
+                                eachItem.stockUpdate();
+                                inputMoney.subtractFromCurrentBalance(BigDecimal.valueOf(cost));
+                                userOutput.dispensingMessage(eachItem);
 
-                                     eachItem.stockUpdate();
-                                     //call auditingPurchase here
-                                     userOutput.dispensingMessage(eachItem);
+                                previousBal = presentBal;
+                                presentBal = inputMoney.getCurrentBalance();
+                                addToAudit.auditingPurchase(name, slot, previousBal, presentBal);
 
-                                     //update currentBalance AND becomes new prevBalance
-                                 } else if (!buyable.enoughStock(eachItem.getSnackStock())){
-                                     userOutput.outOfStock();
-                                 } else {
-                                     userOutput.invalidSlotOrMoney();
-                                 }
-                             }
-                         }
-                         System.out.println("Current balance: $" + inputMoney.getCurrentBalance());
+                            } else if (!canBuy.enoughStock(stock)){
+                                userOutput.outOfStock();
+                            }
+                        }
+                        userOutput.displayBalance(inputMoney);
+                    } else if (choiceTwo.equals("end")) {           // USER SELECTS FINISH TRANSACTION
+                        previousBal = presentBal;
+                        inputMoney.giveChange();
+                        inputMoney.subtractFromCurrentBalance(inputMoney.getCurrentBalance());
+                        presentBal = inputMoney.getCurrentBalance();
+                        addToAudit.auditingChange(previousBal, presentBal);
 
-                 } else if (choiceTwo.equals("end")) {
-                     inputMoney.giveChange();
-                     //curBal always = 0
-                     break;
-                 }
-             }
-
-             }
-            else if(choice.equals("exit"))
-            {
-                // good bye
+                        break;
+                    }
+                }
+            } else if(choice.equals("exit")) {          // USER SELECTS EXIT
                 break;
             }
         }
@@ -127,7 +110,6 @@ public class VendingMachine
 
         for (int i = 0; i < snackListToStringArray.size(); i++) {
             String[] snackInfo = snackListToStringArray.get(i);
-
             String slot = snackInfo[0];
             String name = snackInfo[1];
             double cost = Double.parseDouble(snackInfo[2]);
@@ -136,16 +118,5 @@ public class VendingMachine
             Snacks eachSnack = new Snacks(slot, name, cost, type);
             vendorSnackList.add(eachSnack);
         }
-    }
-
-    public void applyBOGODOSale(int bogodoCounter, MoneyBalance inputMoney) {
-        if (bogodoCounter % 2 == 0) {
-            inputMoney.bogodoSale();
-        }
-    }
-
-    public List<Snacks> getVendorSnackList() {
-
-        return vendorSnackList;
     }
 }
