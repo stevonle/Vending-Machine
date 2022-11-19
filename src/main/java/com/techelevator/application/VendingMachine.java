@@ -12,10 +12,6 @@ public class VendingMachine
 {
     private List<Snacks> vendorSnackList = new ArrayList<>();
     private final BigDecimal BOGODO_DISCOUNT = BigDecimal.ONE;
-//TODO MOVE ALL SOUT INTO TO USEROUTPUT CLASS
-    //TODO MAKE SNACK SLOT INPUT CASE INSENSITIVE
-    //TODO MAKE MONEY GIVE 2 DECIMAL POINTS FOR .00
-    //TODO FIGURE OUT HOW TO MAKE FEED BLOCK SMALLER
     //TODO need a printout message for if nonexistant slot called. WITHOUT printing each time it finds a not matching slot
 
     public void run()
@@ -28,7 +24,7 @@ public class VendingMachine
         //initialize balance
         MoneyBalance inputMoney = new MoneyBalance();
         //initialize purchasingSnacks
-        PurchasingSnacks canYouBuySnacks = new PurchasingSnacks();
+        PurchasingSnacks buyable = new PurchasingSnacks();
         int bogodoCounter = 1;
 
         while (true)
@@ -39,73 +35,64 @@ public class VendingMachine
             if (choice.equals("display"))
             {
                 // display the vending machine slots
-                System.out.println("Slot | Name | Cost | Type | Stock Left");
-                for (Snacks eachItem : vendorSnackList){
-                    userOutput.displaySnackList(eachItem);
-                }
+                userOutput.displaySnackList(vendorSnackList);
             }
 
-            else if (choice.equals("purchase"))
-            {
-                // make a purchase
+            else if (choice.equals("purchase")) {
              while (true) {
                  String choiceTwo = userInput.purchaseMenuOptions();
 
                  if (choiceTwo.equals("feed")) {
-                     System.out.println("Please feed me money. Only $1, $5, $10, $20 bills are accepted.");
+                     userOutput.feedMessage();
                      String choiceThree = userInput.gimmeYoDollars();
 
                      if (choiceThree.equals("1") || choiceThree.equals("5") || choiceThree.equals("10") || choiceThree.equals("20")) {
                          BigDecimal choiceThreeBD = BigDecimal.valueOf(Double.parseDouble(choiceThree));
                          inputMoney.addToCurrentBalance(choiceThreeBD);
+                         userOutput.displayBalance(inputMoney);
                      } else {
-                         System.out.println("Not a valid bill.");
+                         userOutput.invalidBillMessage();
                      }
 
                  } else if (choiceTwo.equals("dispense")) {
-                     while (true) {
-                         System.out.println("Slot | Name | Cost | Type | Stock Left");
-                         for (Snacks eachItem : vendorSnackList){
-                             userOutput.displaySnackList(eachItem);
-                         }
-                         System.out.println();
-                         System.out.println("Please choose the item you would like:");
-                         System.out.println("Current balance: $" + inputMoney.getCurrentBalance());
+
+                     userOutput.displaySnackList(vendorSnackList);
+
+                         userOutput.chooseItem();
+                         userOutput.displayBalance(inputMoney);
 
                          String choiceFour = userInput.gimmeYoSnacks();
-                         //List<Snacks> chosenSnack = new ArrayList<>();
+
                          for (Snacks eachItem : vendorSnackList) {
                              if (choiceFour.equals(eachItem.getSnackSlot())) {
-                                 if (canYouBuySnacks.enoughStockForPurchase(eachItem.getSnackStock()) && canYouBuySnacks.enoughMoneyForSnacks(eachItem.getSnackCost(), inputMoney)) {
-                                     if (bogodoCounter % 2 == 0) {
-                                         inputMoney.bogodoSale();
-                                     }
+                                 if (buyable.enoughStock(eachItem.getSnackStock()) && buyable.enoughMoney(eachItem.getSnackCost(), inputMoney)) {
+
+                                     applyBOGODOSale(bogodoCounter, inputMoney);
+                                     bogodoCounter += 1;
+
                                      BigDecimal choiceFourBD = BigDecimal.valueOf(eachItem.getSnackCost());
                                      inputMoney.subtractFromCurrentBalance(choiceFourBD);
+
                                      eachItem.stockUpdate();
-                                     bogodoCounter += 1;
-                                     System.out.println("Dispensing " + eachItem.getSnackName() + " $" + eachItem.getSnackCost());
-                                     System.out.println(eachItem.snackTypeMessage(eachItem.getSnackType()));
-                                 } else if (!canYouBuySnacks.enoughStockForPurchase(eachItem.getSnackStock())){
-                                     System.out.println("Product No Longer Available");
-                                 } //else previusly 1 {} down
-                                 else {
-                                     System.out.println("You either didn't input a valid slot or you don't have enough money. Do it right next time.");
-                             }
+
+                                     userOutput.dispensingMessage(eachItem);
+
+                                 } else if (!buyable.enoughStock(eachItem.getSnackStock())){
+                                     userOutput.outOfStock();
+                                 } else {
+                                     userOutput.invalidSlotOrMoney();
+                                 }
                              }
                          }
-                         userInput.purchaseMenuOptions();
                          System.out.println("Current balance: $" + inputMoney.getCurrentBalance());
-                     }
 
                  } else if (choiceTwo.equals("end")) {
-
-                     System.out.println("Here is your change. Thank you for your business.");
+                     inputMoney.giveChange();
+                     break;
                  }
-                 //System.out.println("Your current money provided: $" + inputMoney.getCurrentBalance() + "0.");
              }
 
-            }
+             }
             else if(choice.equals("exit"))
             {
                 // good bye
@@ -129,6 +116,12 @@ public class VendingMachine
 
             Snacks eachSnack = new Snacks(slot, name, cost, type);
             vendorSnackList.add(eachSnack);
+        }
+    }
+
+    public void applyBOGODOSale(int bogodoCounter, MoneyBalance inputMoney) {
+        if (bogodoCounter % 2 == 0) {
+            inputMoney.bogodoSale();
         }
     }
 

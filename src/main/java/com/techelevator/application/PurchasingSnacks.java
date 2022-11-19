@@ -9,14 +9,14 @@ public class PurchasingSnacks {
     //math for snacks, stock
 
     //can only buy if have enough money
-    public boolean enoughMoneyForSnacks(double snackCost, MoneyBalance inputMoney){
+    public boolean enoughMoney(double snackCost, MoneyBalance inputMoney){
         BigDecimal snackCostBD = new BigDecimal(String.valueOf(snackCost));
         double moneyMinusSnackCost = inputMoney.getCurrentBalance().subtract(snackCostBD).doubleValue();
        boolean enoughMoney = moneyMinusSnackCost >= 0;
        return enoughMoney;
     }
     //can only buy if enough stock
-    public boolean enoughStockForPurchase(int snackStock){
+    public boolean enoughStock(int snackStock){
         return snackStock > 0;
     }
     //updating stock #

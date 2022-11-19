@@ -1,16 +1,16 @@
 package com.techelevator.application;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 
 public class MoneyBalance {
-    private BigDecimal moneyFed;
-    private BigDecimal currentBalance = new BigDecimal(0.00);
+    private BigDecimal currentBalance = new BigDecimal("0");
 
     public MoneyBalance(){
     }
 
     public BigDecimal addToCurrentBalance(BigDecimal moneyFed){
-        currentBalance=(currentBalance.add(moneyFed));
+        currentBalance = (currentBalance.add(moneyFed));
         return currentBalance;
         //BigDecimal moneyFedDecimal = new BigDecimal(moneyFed);
     }
@@ -24,31 +24,31 @@ public class MoneyBalance {
 //       boolean enoughMoney = moneyMinusSnackCost >= 0;
 //       return enoughMoney;
 
-    public String giveChange(){
+    public void giveChange(){
+        BigDecimal balance = this.currentBalance;
         int nickels = 0;
         int quarters = 0;
         int dimes = 0;
         int dollars = 0;
 
-        while(this.currentBalance.doubleValue() >= 1.0){
-            currentBalance.subtract(BigDecimal.ONE);
+        while(balance.doubleValue() >= 1.0){
+            balance = balance.subtract(BigDecimal.ONE);
             dollars += 1;
         }
-        while(this.currentBalance.doubleValue() >= 0.25){
-            currentBalance.subtract(new BigDecimal(".25"));
+        while(balance.doubleValue() >= 0.25){
+            balance = balance.subtract(new BigDecimal(".25"));
             quarters += 1;
         }
-        while(this.currentBalance.doubleValue() >= 0.1){
-            currentBalance.subtract(new BigDecimal(".1"));
+        while(balance.doubleValue() >= 0.1){
+            balance = balance.subtract(new BigDecimal(".1"));
             dimes += 1;
         }
-        while(this.currentBalance.doubleValue() >= 0.05){
-            currentBalance.subtract(new BigDecimal(".05"));
+        while(balance.doubleValue() >= 0.05){
+            balance = balance.subtract(new BigDecimal(".05"));
             nickels += 1;
         }
-        currentBalance = BigDecimal.ZERO;
         System.out.println("Here's your change! Dollars: " + dollars + " Quarters: " + quarters + " Dimes: " + dimes + " Nickels: " + nickels);
-        return "";
+        balance = BigDecimal.ZERO;
     }
 
     public BigDecimal bogodoSale(){
@@ -56,11 +56,8 @@ public class MoneyBalance {
     }
 
 
-
-    public BigDecimal getMoneyFed() {
-        return moneyFed;
-    }
     public BigDecimal getCurrentBalance() {
+        this.currentBalance = this.currentBalance.setScale(2);
         return currentBalance;
     }
 }
