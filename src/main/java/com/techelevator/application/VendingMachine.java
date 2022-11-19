@@ -1,5 +1,7 @@
 package com.techelevator.application;
 
+import com.techelevator.models.Audit;
+import com.techelevator.models.FileReading;
 import com.techelevator.models.Snacks;
 import com.techelevator.ui.UserInput;
 import com.techelevator.ui.UserOutput;
@@ -25,7 +27,14 @@ public class VendingMachine
         MoneyBalance inputMoney = new MoneyBalance();
         //initialize purchasingSnacks
         PurchasingSnacks buyable = new PurchasingSnacks();
+        //initialize Audit
+        Audit addToAudit = new Audit();
+        Audit auditPrevBal = new Audit();
+        Audit auditCurBal = new Audit();
+
+
         int bogodoCounter = 1;
+
 
         while (true)
         {
@@ -48,8 +57,11 @@ public class VendingMachine
 
                      if (choiceThree.equals("1") || choiceThree.equals("5") || choiceThree.equals("10") || choiceThree.equals("20")) {
                          BigDecimal choiceThreeBD = BigDecimal.valueOf(Double.parseDouble(choiceThree));
+                         //auditPrevBal =
                          inputMoney.addToCurrentBalance(choiceThreeBD);
                          userOutput.displayBalance(inputMoney);
+//                         auditCurBal += choiceThreeBD;
+                         //save to auditFeed
                      } else {
                          userOutput.invalidBillMessage();
                      }
@@ -72,11 +84,13 @@ public class VendingMachine
 
                                      BigDecimal choiceFourBD = BigDecimal.valueOf(eachItem.getSnackCost());
                                      inputMoney.subtractFromCurrentBalance(choiceFourBD);
+                                     addToAudit.auditingPurchase(eachItem.getSnackName(), eachItem.getSnackSlot());
 
                                      eachItem.stockUpdate();
-
+                                     //call auditingPurchase here
                                      userOutput.dispensingMessage(eachItem);
 
+                                     //update currentBalance AND becomes new prevBalance
                                  } else if (!buyable.enoughStock(eachItem.getSnackStock())){
                                      userOutput.outOfStock();
                                  } else {
@@ -88,6 +102,7 @@ public class VendingMachine
 
                  } else if (choiceTwo.equals("end")) {
                      inputMoney.giveChange();
+                     //curBal always = 0
                      break;
                  }
              }
