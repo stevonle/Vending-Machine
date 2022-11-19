@@ -32,9 +32,7 @@ public class VendingMachine
         Audit auditPrevBal = new Audit();
         Audit auditCurBal = new Audit();
 
-
         int bogodoCounter = 1;
-
 
         while (true)
         {
