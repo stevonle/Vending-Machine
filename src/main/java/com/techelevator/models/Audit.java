@@ -9,8 +9,6 @@ public class Audit {
     private final LocalDateTime dateTime = LocalDateTime.now();
     //TODO spacing format
 
-    //   01/01/2022 12:01:25 PM SingleMint Gum  C2  $6.75   $5.40
-
     public File createAuditFile(){
         final String path = "src/main/java/com/techelevator/models/";
         String auditFileName = "audit.txt";

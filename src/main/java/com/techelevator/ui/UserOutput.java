@@ -78,4 +78,8 @@ public class UserOutput
         System.out.println();
     }
 
+    public void displayEndTransaction(Map<String, Integer> endMap2){
+        System.out.println("Here's your change! Dollars: " + endMap2.get("dollars") + " Quarters: " + endMap2.get("quarters") + " Dimes: " + endMap2.get("dimes") + " Nickels: " + endMap2.get("nickels"));
+
+    }
 }

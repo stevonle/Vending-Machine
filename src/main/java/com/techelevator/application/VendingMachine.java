@@ -8,7 +8,9 @@ import com.techelevator.ui.UserOutput;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class VendingMachine {
     private List<Snacks> vendorSnackList = new ArrayList<>();
@@ -90,7 +92,8 @@ public class VendingMachine {
                         userOutput.displayBalance(inputMoney);
                     } else if (choiceTwo.equals("end")) {           // USER SELECTS FINISH TRANSACTION
                         previousBal = presentBal;
-                        inputMoney.giveChange();
+                        Map<String, Integer> endMap = inputMoney.giveChange();
+                        userOutput.displayEndTransaction(endMap);
                         inputMoney.subtractFromCurrentBalance(inputMoney.getCurrentBalance());
                         presentBal = inputMoney.getCurrentBalance();
                         addToAudit.auditingChange(previousBal, presentBal);
