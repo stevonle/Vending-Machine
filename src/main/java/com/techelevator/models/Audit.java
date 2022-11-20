@@ -41,20 +41,19 @@ public class Audit {
         }
     }
 
-        public void auditingChange(BigDecimal previous, BigDecimal present) {
-            try {
-                PrintWriter auditWriter = new PrintWriter(new FileOutputStream(createAuditFile(), true));
-                auditWriter.println(getDateTime() + " CHANGE GIVEN: $" + previous + " $" + present);
-                auditWriter.flush();
+    public void auditingChange(BigDecimal previous, BigDecimal present) {
+        try {
+            PrintWriter auditWriter = new PrintWriter(new FileOutputStream(createAuditFile(), true));
+            auditWriter.println(getDateTime() + " CHANGE GIVEN: $" + previous + " $" + present);
+            auditWriter.flush();
                 auditWriter.close();
-            } catch (FileNotFoundException e) {
-            }
+        } catch (FileNotFoundException e) {
         }
+    }
 
     public String getDateTime() {
         DateTimeFormatter formattingTime = DateTimeFormatter.ofPattern(" MM/dd/yyyy hh:mm:ss a");
         String auditDateTime = dateTime.format(formattingTime);
         return auditDateTime;
     }
-
 }

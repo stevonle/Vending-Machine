@@ -30,8 +30,7 @@ public class VendingMachine {
 
         initializeVendingMachine();
 
-        while (true)
-        {
+        while (true) {
             userOutput.displayHomeScreen();
             String choice = userInput.getHomeScreenOption();
 

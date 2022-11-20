@@ -24,9 +24,11 @@ public class Snacks {
         this.snackType = snackType;
     }
 
-    //could move to snackPurchasing, but wont have access to snackStock so leaving here for now :p
     public void stockUpdate() {
-        this.snackStock -= 1;
+        if (this.snackStock > 0) {
+            this.snackStock -= 1;
+        }
+
     }
 
     public String snackTypeMessage(String snackType) {
@@ -63,5 +65,9 @@ public class Snacks {
 
     public List<String[]> getSnackList() {
         return snackList;
+    }
+
+    public void setSnackStock(int snackStock) {
+        this.snackStock = snackStock;
     }
 }
