@@ -64,16 +64,17 @@ public class VendingMachine {
                         userOutput.chooseItem();
                         userOutput.displayBalance(inputMoney);
                         String choiceFour = userInput.gimmeYoSnacks();
+//initialize boolean that is false
 
                         for (Snacks eachItem : vendorSnackList) {
                             String slot = eachItem.getSnackSlot();
                             String name = eachItem.getSnackName();
                             double cost = eachItem.getSnackCost();
                             int stock = eachItem.getSnackStock();
-
+//check for (slot) first, then have boolean = true. i have your ok for another nested if?
                             if (choiceFour.equalsIgnoreCase(slot) && canBuy.enoughStock(stock)
                                     && canBuy.enoughMoney(cost, inputMoney)) {
-
+//boolean is true here bc item was found split if statement to right slot and enough stock and put only in slot found
                                 inputMoney.bogodoSale(bogodoCounter, inputMoney);
                                 bogodoCounter += 1;
                                 eachItem.stockUpdate();

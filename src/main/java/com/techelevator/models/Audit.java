@@ -7,7 +7,6 @@ import java.time.format.DateTimeFormatter;
 
 public class Audit {
     private final LocalDateTime dateTime = LocalDateTime.now();
-    //TODO spacing format
 
     public File createAuditFile(){
         final String path = "src/main/java/com/techelevator/models/";
@@ -16,15 +15,17 @@ public class Audit {
         try {
             auditFile.createNewFile();
         } catch (IOException e) {
-            System.out.println("Beep boop something happened.");
+            System.out.println("Beep boop file was unable to be created.");
         }
         return auditFile;
     }
 
     public void auditingFeed(BigDecimal moneyFed, BigDecimal present) {
+
         try {
             PrintWriter auditWriter = new PrintWriter(new FileOutputStream(createAuditFile(), true));
-            auditWriter.println(getDateTime() + " MONEY FED: $" + moneyFed + " $" + present);
+            String auditFormat = String.format("%-21s $%-8s $%-8s", " MONEY FED: ", moneyFed, present);
+            auditWriter.println(getDateTime() + auditFormat);
             auditWriter.flush();
             auditWriter.close();
         } catch (FileNotFoundException e) {
@@ -34,7 +35,8 @@ public class Audit {
     public void auditingPurchase(String name, String slot, BigDecimal previous, BigDecimal present) {
         try {
             PrintWriter auditWriter = new PrintWriter(new FileOutputStream(createAuditFile(), true));
-            auditWriter.println(getDateTime() + " " + name + " " + slot + " $" + previous + " $" + present);
+            String auditFormat = String.format(" " + "%-16s %3s $%-8s $%-8s", name, slot, previous, present);
+            auditWriter.println(getDateTime() + auditFormat);
             auditWriter.flush();
             auditWriter.close();
         } catch (FileNotFoundException e) {
@@ -44,7 +46,8 @@ public class Audit {
     public void auditingChange(BigDecimal previous, BigDecimal present) {
         try {
             PrintWriter auditWriter = new PrintWriter(new FileOutputStream(createAuditFile(), true));
-            auditWriter.println(getDateTime() + " CHANGE GIVEN: $" + previous + " $" + present);
+            String auditFormat = String.format("%-21s $%-8s $%-8s", " CHANGE GIVEN: ", previous, present);
+            auditWriter.println(getDateTime() + auditFormat);
             auditWriter.flush();
                 auditWriter.close();
         } catch (FileNotFoundException e) {
