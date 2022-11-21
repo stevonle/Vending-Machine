@@ -64,17 +64,32 @@ public class VendingMachine {
                         userOutput.chooseItem();
                         userOutput.displayBalance(inputMoney);
                         String choiceFour = userInput.gimmeYoSnacks();
-//initialize boolean that is false
 
                         for (Snacks eachItem : vendorSnackList) {
                             String slot = eachItem.getSnackSlot();
                             String name = eachItem.getSnackName();
                             double cost = eachItem.getSnackCost();
                             int stock = eachItem.getSnackStock();
-//check for (slot) first, then have boolean = true. i have your ok for another nested if?
+                            boolean slotOnMachine = false;
+                            if (choiceFour.equalsIgnoreCase(slot)){
+                                slotOnMachine = true;
+                            }
+                            System.out.println(slotOnMachine);
+/*sorry Daniel, I tried but I still couldn't figure out
+how to get the invalid Slot input code to work :( -Laura
+*/
+                            if(!canBuy.enoughStock(stock)){
+                                userOutput.outOfStock();
+                                break;
+                            }
+
+                            if (!canBuy.enoughMoney(cost, inputMoney)){
+                                userOutput.notEnoughMoney();
+                                break;
+                            }
                             if (choiceFour.equalsIgnoreCase(slot) && canBuy.enoughStock(stock)
                                     && canBuy.enoughMoney(cost, inputMoney)) {
-//boolean is true here bc item was found split if statement to right slot and enough stock and put only in slot found
+
                                 inputMoney.bogodoSale(bogodoCounter, inputMoney);
                                 bogodoCounter += 1;
                                 eachItem.stockUpdate();
@@ -85,8 +100,6 @@ public class VendingMachine {
                                 presentBal = inputMoney.getCurrentBalance();
                                 addToAudit.auditingPurchase(name, slot, previousBal, presentBal);
 
-                            } else if (!canBuy.enoughStock(stock)){
-                                userOutput.outOfStock();
                             }
                         }
                         userOutput.displayBalance(inputMoney);

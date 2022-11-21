@@ -45,13 +45,17 @@ public class UserOutput
         System.out.println();
     }
 
-    public void invalidSlotOrMoney() {
-        System.out.println("You don't have enough money");
+    public void notEnoughMoney() {
+        System.out.println("You don't have enough money.");
     }
 
     public void outOfStock() {
         System.out.println("ITEM NO LONGER AVAILABLE");
 
+    }
+
+    public void invalidSlotMessage(){
+        System.out.println("That slot does not exist on this machine.");
     }
 
     public void chooseItem() {
@@ -69,7 +73,7 @@ public class UserOutput
     }
 
     public void invalidBillMessage() {
-        System.out.println("Not a valid bill");
+        System.out.println("Not a valid bill.");
 
     }
 
