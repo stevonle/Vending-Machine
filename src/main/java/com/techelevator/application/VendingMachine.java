@@ -74,19 +74,22 @@ public class VendingMachine {
                             if (choiceFour.equalsIgnoreCase(slot)){
                                 slotOnMachine = true;
                             }
-                            System.out.println(slotOnMachine);
 /*sorry Daniel, I tried but I still couldn't figure out
 how to get the invalid Slot input code to work :( -Laura
 */
-                            if(!canBuy.enoughStock(stock)){
-                                userOutput.outOfStock();
+                            if (slotOnMachine == false) {
+                                System.out.println("invalid slot");
                                 break;
                             }
-
-                            if (!canBuy.enoughMoney(cost, inputMoney)){
-                                userOutput.notEnoughMoney();
-                                break;
-                            }
+//                            if(!canBuy.enoughStock(stock)){
+//                                userOutput.outOfStock();
+//                                break;
+//                            }
+//
+//                            if (!canBuy.enoughMoney(cost, inputMoney)){
+//                                userOutput.notEnoughMoney();
+//                                break;
+//                            }
                             if (choiceFour.equalsIgnoreCase(slot) && canBuy.enoughStock(stock)
                                     && canBuy.enoughMoney(cost, inputMoney)) {
 
