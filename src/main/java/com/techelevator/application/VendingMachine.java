@@ -77,10 +77,10 @@ public class VendingMachine {
 /*sorry Daniel, I tried but I still couldn't figure out
 how to get the invalid Slot input code to work :( -Laura
 */
-                            if (slotOnMachine == false) {
-                                System.out.println("invalid slot");
-                                break;
-                            }
+//                            if (slotOnMachine == false) {
+//                                System.out.println("invalid slot");
+//                                break;
+//                            }
 //                            if(!canBuy.enoughStock(stock)){
 //                                userOutput.outOfStock();
 //                                break;
